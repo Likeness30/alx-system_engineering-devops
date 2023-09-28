@@ -1,0 +1,2 @@
+#!/bin/bash
+echo ls -l cd .. echo -e ls -l cd /boot echo -e ls -l
