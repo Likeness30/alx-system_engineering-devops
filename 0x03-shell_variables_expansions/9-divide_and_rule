@@ -1,2 +1,2 @@
 #!/bin/bash
-ecno $(($POWER/$DIVIDE))
+echo $(($POWER/$DIVIDE))
