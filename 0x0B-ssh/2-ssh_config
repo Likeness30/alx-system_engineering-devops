@@ -1,0 +1,4 @@
+# ssh config file
+IdentityFile ~/.ssh/school
+PubKeyAuthentication yes
+PasswordAuthentication no
