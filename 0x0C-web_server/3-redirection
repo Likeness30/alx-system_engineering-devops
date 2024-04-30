@@ -1,9 +1,23 @@
 #!/usr/bin/env bash
 #This script configures a new Nginx server so that /redirect_me is redirecting to another page
 
-sudo apt-get -y update
-sudo apt-get -y install nginx
+echo -e "Updating and installing Nginx\n"
+sudo apt-get update -y -qq && \
+sudo apt-get install nginx -y
+echo -e "\nSetting up some things.\n"
+# Starting nginx service
+sudo service nginx start
+# Setting up firewall
 sudo ufw allow 'Nginx HTTP'
-echo "Hello World" | sudo tee /var/www/html/index
+# Setting up user ownership to website files
+sudo chown -R $USER:$USER /var/www/html
+sudo chmod -R 755 /var/www/html
+# Backing up default index.html
+sudo cp /var/www/html/index.html /var/www/html/index.nginx-debian.html.bckp
+# Setting up index.html
+echo -e "Hello World" > /var/www/html/index.nginx-debian.html
+# Setting up redirect_me to a youtube video
 sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com/ permanent;' /etc/nginx/sites-available/default
+# Restarting nginx service
 sudo service nginx restart
+echo -e "\nCompleted.\n"
