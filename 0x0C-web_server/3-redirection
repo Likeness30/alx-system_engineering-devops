@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+#This script configures a new Nginx server so that /redirect_me is redirecting to another page
 sudo service nginx start
 
 # allowing nginx on firewall
