@@ -1,23 +1,22 @@
-#!/usr/bin/env bash
-#This script configures a new Nginx server so that /redirect_me is redirecting to another page
-
-echo -e "Updating and installing Nginx\n"
-sudo apt-get update -y -qq && \
-sudo apt-get install nginx -y
-echo -e "\nSetting up some things.\n"
-# Starting nginx service
 sudo service nginx start
-# Setting up firewall
+
+# allowing nginx on firewall
 sudo ufw allow 'Nginx HTTP'
-# Setting up user ownership to website files
-sudo chown -R $USER:$USER /var/www/html
-sudo chmod -R 755 /var/www/html
-# Backing up default index.html
-sudo cp /var/www/html/index.html /var/www/html/index.nginx-debian.html.bckp
-# Setting up index.html
-echo -e "Hello World" > /var/www/html/index.nginx-debian.html
-# Setting up redirect_me to a youtube video
-sudo sed -i '24i rewrite ^/redirect_me https://www.youtube.com/watch?v=76dhtgZt38A&t=1106s permanent;' /etc/nginx/sites-available/default
-# Restarting nginx service
+
+# Give the user ownership to website files
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+# Backup default index
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+# Creating new index
+echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
+
+# Setting up /redirect_me to a youtube video
+sudo sed -i '24i\       rewrite ^/redirect_me https://www.youtube.com/watch?v=76dhtgZt38A&t=1106s permanent;' /etc/nginx/sites-available/default
+
+# Restarting nginx
 sudo service nginx restart
+
 echo -e "\nCompleted.\n"
