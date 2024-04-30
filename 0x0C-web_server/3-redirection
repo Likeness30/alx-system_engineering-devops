@@ -17,7 +17,7 @@ sudo cp /var/www/html/index.html /var/www/html/index.nginx-debian.html.bckp
 # Setting up index.html
 echo -e "Hello World" > /var/www/html/index.nginx-debian.html
 # Setting up redirect_me to a youtube video
-sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com/ permanent;' /etc/nginx/sites-available/default
+sudo sed -i '24i\ rewrite ^/redirect_me https://www.youtube.com/watch?v=76dhtgZt38A&t=1106s permanent;' /etc/nginx/sites-available/default
 # Restarting nginx service
 sudo service nginx restart
 echo -e "\nCompleted.\n"
