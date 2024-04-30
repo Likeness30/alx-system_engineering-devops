@@ -1,26 +1,23 @@
 #!/usr/bin/env bash
-# Update the package list and install Nginx
+#This script configures a new Nginx server so that /redirect_me is redirecting to another page
 
-apt-get update
-apt-get install -y nginx
-
-# Create the default "Hello world" page
-echo "Hello World!" > /var/www/html/index.html
-
-# Define the redirection configuration
-redirection_config="/etc/nginx/redirect_config"
-
-# Define the redirection configuration
-echo -e "\tserver_name _;
-\tlocation /redirect_me {
-\t\treturn 301 https://www.youtube.com/watch?v=76dhtgZt38A&t=1106s;
-\t}" > "$redirection_config"
-
-# Insert the redirection configuration into the default Nginx server block
-sed -i "/server_name _;/{
-    r $redirection_config
-    d
-}" /etc/nginx/sites-available/default
-
-# Restart the Nginx service
-service nginx restart
+echo -e "Updating and installing Nginx\n"
+sudo apt-get update -y -qq && \
+sudo apt-get install nginx -y
+echo -e "\nSetting up some things.\n"
+# Starting nginx service
+sudo service nginx start
+# Setting up firewall
+sudo ufw allow 'Nginx HTTP'
+# Setting up user ownership to website files
+sudo chown -R $USER:$USER /var/www/html
+sudo chmod -R 755 /var/www/html
+# Backing up default index.html
+sudo cp /var/www/html/index.html /var/www/html/index.nginx-debian.html.bckp
+# Setting up index.html
+echo -e "Hello World" > /var/www/html/index.nginx-debian.html
+# Setting up redirect_me to a youtube video
+sudo sed -i '24i rewrite ^/redirect_me https://www.youtube.com/watch?v=76dhtgZt38A&t=1106s permanent;' /etc/nginx/sites-available/default
+# Restarting nginx service
+sudo service nginx restart
+echo -e "\nCompleted.\n"
