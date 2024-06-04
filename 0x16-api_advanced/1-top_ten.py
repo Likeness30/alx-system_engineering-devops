@@ -23,11 +23,9 @@ def top_ten(subreddit):
         allow_redirects=False,
     )
 
-    # Check if the request was successful
     if response.status_code != 200:
         print(None)
         return
 
-    # Print the titles of the top 10 hot posts
     for post in response.json()["data"]["children"]:
         print(post["data"]["title"])
