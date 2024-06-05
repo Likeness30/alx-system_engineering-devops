@@ -1,4 +1,4 @@
-# this manifest fixes a misconfiguration that caused server error 500.
+# This script manifest fixes a misconfiguration that caused server error 500.
 
 $settings_file='/var/www/html/wp-settings.php'
 file { $settings_file:
